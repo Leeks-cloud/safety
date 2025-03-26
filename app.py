@@ -7,8 +7,7 @@ from utils.pdf_generator import PDF
 
 st.set_page_config(page_title="안전위험요소 보고", layout="centered")
 
-st.title("📋 안전위험요소 보고서 작성")
-st.markdown("현장에서 위험요소를 발견했을 때, 아래 항목을 입력하세요.")
+st.title("📋 안전위험요소")
 
 # 날짜
 report_date = st.date_input("📅 날짜", value=date.today())
