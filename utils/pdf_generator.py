@@ -129,7 +129,7 @@ class PDF(FPDF):
         self.cell(text_w, row_height, "", border=1)  # 내용셀의 전체 테두리를 그린다
 
         # 3. 내용 삽입 (제목셀처럼 내용셀 안에 텍스트를 배치)
-        self.set_xy(x + label_w + 1, y + 1)  # 내용이 테두리에 딱 붙지 않도록 약간의 여백 추가 (1mm씩)
+        self.set_xy(x + label_w + 5, y + 5)  # 내용이 테두리에 딱 붙지 않도록 약간의 여백 추가 (1mm씩)
         
         # 📌 내용 텍스트 출력 (multi_cell 사용으로 줄바꿈 문제 해결)
         # 텍스트가 길어도 내용 셀 안에서 출력되도록 설정
