@@ -62,7 +62,7 @@ if selected_option == "이동용 사다리로 추락 위험이 높은 경우":
                     checked_items.append(item)
         
         if checked_items:
-            auto_description += "A형 사다리를 이용하여 안전에 유의하여 검사 진행\n안전장구류 착용 확인: " + ", ".join(checked_items) + "\n"
+            auto_description += "A형 사다리를 이용하여 안전에 유의하여 검사 진행\n안전장구류 착용 확인: " + ", ".join(checked_items) + "\n설명추가 : "
         else:
             auto_description += "안전장구류 착용 확인: 없음 -> ⚠️안전장구류 필수 착용 요망\n"
 
@@ -92,7 +92,7 @@ elif selected_option == "주정차가 불가능한 도로 및 터널에 설치�
                 checked_items.append(item)
     
     if checked_items:
-        auto_description += "안전장구류 착용 확인: " + ", ".join(checked_items) + "\n"
+        auto_description += "안전장구류 착용 확인: " + ", ".join(checked_items) + "\n설명추가 : "
     else:
         auto_description += "안전장구류 착용 확인: 없음 -> ⚠️안전장구류 필수 착용 요망\n"
 
@@ -118,7 +118,7 @@ elif selected_option == "안전난간이 없는 지붕 위 설치된 경우":
                 checked_items.append(item)
     
     if checked_items:
-        auto_description += "안전장구류 착용 확인: " + ", ".join(checked_items) + "\n"
+        auto_description += "안전장구류 착용 확인: " + ", ".join(checked_items) + "\n설명추가 : "
     else:
         auto_description += "안전장구류 착용 확인: 없음 -> ⚠️안전장구류 필수 착용 요망\n"
 
