@@ -20,11 +20,11 @@ severity = st.radio("⚠️ 심각도", ["경계", "중간", "심각"], horizont
 recurrence = st.radio("♻️ 재발 가능성", ["낮음", "보통", "높음"], horizontal=True)
 
 # 전체 사진 업로드
-st.markdown("### 📷 위험요소 전체 사진")
+st.markdown("##### 📷 위험요소 전체 사진")
 whole_photo = st.file_uploader("전체 사진 업로드", type=["jpg", "jpeg", "png"], key="whole")
 
 # 근접 사진 업로드
-st.markdown("### 🔍 위험요소 근접 사진")
+st.markdown("##### 🔍 위험요소 근접 사진")
 closeup_photo = st.file_uploader("근접 사진 업로드", type=["jpg", "jpeg", "png"], key="close")
 
 # 선택 항목 리스트
@@ -37,7 +37,7 @@ options = [
 ]
 
 # 선택항목을 선택할 때 사용되는 selectbox 위젯
-selected_option = st.selectbox("선택 항목", options)
+selected_option = st.selectbox("✅ 항목 선택", options)
 
 # 선택에 따라 추가 정보 표시 및 내용 수집
 additional_info = f"선택항목: {selected_option}\n"  # 선택 항목 추가
