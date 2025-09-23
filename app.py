@@ -2,6 +2,13 @@ import streamlit as st
 from datetime import date
 import tempfile
 from utils.pdf_generator import PDF
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
+from email.mime.text import MIMEText
+from email.header import Header
+from email import encoders
+import os
 
 st.set_page_config(page_title="안전위험요소 보고", layout="centered")
 
@@ -134,12 +141,21 @@ etc = st.text_area("📝추가설명", value=auto_description, height=150)
 if etc:
     etc = etc.replace('\n', '\n')
 
-generate = st.button("📄 PDF 리포트 생성")
+# 이메일 입력
+recipient_email = st.text_input("📨 수신자 이메일 (PDF 전송용)", placeholder="example@example.com")
+
+# PDF 생성 버튼
+generate = st.button("📄 PDF 리포트 생성 및 이메일 전송")
 
 if generate:
     if not whole_photo or not closeup_photo:
         st.warning("📸 사진을 모두 업로드해주세요.")
+    elif not recipient_email:
+        st.warning("📨 수신자 이메일을 입력해주세요.")
     else:
+        # PDF 파일 이름 정의
+        filename = f"안전위험요소_{report_date}.pdf"
+        tmp_path = os.path.join(tempfile.gettempdir(), filename)
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmpfile:
             pdf = PDF()
             pdf.header_table(
@@ -153,6 +169,47 @@ if generate:
             )
             pdf.export(tmpfile.name)
 
+        # 이메일 전송
+        def send_email_with_attachment(sender_email, sender_password, recipient_email, subject, body, attachment_path):
+            try:
+                msg = MIMEMultipart()
+                msg['From'] = sender_email
+                msg['To'] = recipient_email
+                msg['Subject'] = subject
+
+                msg.attach(MIMEText(body, 'plain', 'utf-8'))
+
+                filename = f"안전위험요소_{report_date}.pdf"
+                with open(attachment_path, 'rb') as f:
+                    mime = MIMEBase('application', 'octet-stream')
+                    mime.set_payload(f.read())
+                    encoders.encode_base64(mime)
+                    mime.add_header('Content-Disposition', 'attachment', filename=Header(filename, 'utf-8').encode())
+                    msg.attach(mime)
+
+                with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+                    server.login(sender_email, sender_password)
+                    server.send_message(msg)
+
+                return True
+            except Exception as e:
+                print("이메일 전송 실패:", e)
+                return False
+
+        sender_email = "qdqd1541@gmail.com"  # 발신자 이메일
+        sender_password = "ewdc mfbc vunf xfnq"   # 앱 비밀번호
+        subject = f"[자동보고] 안전위험요소 리포트 - {report_date}"
+        body = "첨부된 PDF 리포트를 확인해주세요."
+
+        success = send_email_with_attachment(
+            sender_email,
+            sender_password,
+            recipient_email,
+            subject,
+            body,
+            tmpfile.name
+        )
+
         with open(tmpfile.name, "rb") as f:
             st.download_button(
                 label="📥 PDF 다운로드",
@@ -160,3 +217,10 @@ if generate:
                 file_name=f"안전위험요소_{report_date}.pdf",
                 mime="application/pdf"
             )
+        # 다운로드 후 자동 삭제
+        if os.path.exists(tmp_path):
+            os.remove(tmp_path)
+        if success:
+            st.success("✅ 이메일 전송 완료!")
+        else:
+            st.error("❌ 이메일 전송 실패. 설정을 확인해주세요.")
