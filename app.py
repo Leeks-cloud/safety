@@ -37,8 +37,10 @@ closeup_photo = st.file_uploader("근접 사진 업로드", type=["jpg", "jpeg",
 # 선택 항목 리스트
 options = [
     "이동용 사다리로 추락 위험이 높은 경우", 
+    "사다리 시작위치가 너무 높거나 끝 지점에 장애물이 많은 경우", 
     "주정차가 불가능한 도로 및 터널에 설치된 경우", 
     "안전난간이 없는 지붕 위 설치된 경우", 
+    "측정장비가 너무 높은곳에 있는 경우", 
     "감염병으로 출입이 불가능한 지역", 
     "기타 위험국소"
 ]
@@ -54,7 +56,7 @@ auto_description = ""  # 자동으로 추가되는 설명 초기화
 if selected_option == "이동용 사다리로 추락 위험이 높은 경우":
     st.write("사다리 유형 선택")
     
-    ladder_type = st.radio("사다리 유형을 선택하세요:", ["A자형 사다리", "비 A자형 사다리"])
+    ladder_type = st.radio("사다리 유형을 선택하세요:", ["A자형 사다리", "1자형 사다리"])
     additional_info += f"사다리 유형: {ladder_type}\n"
 
     if ladder_type == "A자형 사다리":
@@ -69,13 +71,54 @@ if selected_option == "이동용 사다리로 추락 위험이 높은 경우":
                     checked_items.append(item)
         
         if checked_items:
-            auto_description += "A형 사다리를 이용하여 안전에 유의하여 검사 진행\n안전장구류 착용 확인: " + ", ".join(checked_items) + "\n설명추가 : "
+            auto_description += "전도방지 확인 후 안전에 유의하여 검사 진행\n안전장구류 착용 확인: " + ", ".join(checked_items) + "\n설명추가 : "
         else:
             auto_description += "안전장구류 착용 확인: 없음 -> ⚠️안전장구류 필수 착용 요망\n"
 
     else:  # 비 A자형 사다리일 경우
-        warning_message = "⚠️ 현재 비 A자형 사다리 사용 중 - A자형 사다리로 변경 후 검사 요망!\n"
-        auto_description += warning_message
+        st.write("✔️ 안전장구류 체크리스트")
+        safety_gear = ["안전모", "안전화", "안전대", "안전고리", "보호장갑"]
+        checked_items = []
+        columns = st.columns(len(safety_gear))
+
+        for idx, item in enumerate(safety_gear):
+            with columns[idx]:
+                if st.checkbox(item, value=True, key=f"safety_{idx}"):
+                    checked_items.append(item)
+        
+        if checked_items:
+            auto_description += "이동 통로로만 이용(사다리에서 작업은 금지), 2인 1조 전도방지를 위한 조치와 함께 안전 검사 진행\n안전장구류 착용 확인: " + ", ".join(checked_items) + "\n설명추가 : "
+        else:
+            auto_description += "안전장구류 착용 확인: 없음 -> ⚠️안전장구류 필수 착용 요망\n"
+
+elif selected_option == "사다리 시작위치가 너무 높거나 끝 지점에 장애물이 많은 경우":
+    st.write("🛤️ 우회로 확인")
+    
+    detour_option = st.radio("우회로 존재 여부를 선택하세요:", ["우회로 있음", "우회로 없음", "접근불가능"])
+    additional_info += f"우회로 여부: {detour_option}\n"
+
+    if detour_option == "우회로 있음":
+        auto_description += "다른 우회로: 있음 -> 우회로를 통해 도보로 이동 후 검사 진행\n"
+    elif detour_option == "우회로 없음":
+        auto_description += "다른 우회로: 없음 -> 안전대와 안전고리를 적절히 사용하며 안전에 유의하며 검사 진행\n"
+    elif detour_option == "접근불가능":
+        auto_description += "접근불가능 -> 식별 가능한 곳에서 OTA 측정 진행\n"
+
+    st.write("✔️ 안전장구류 체크리스트")
+    safety_gear = ["안전모", "안전화", "안전대", "안전고리", "보호장갑"]
+    checked_items = []
+    columns = st.columns(len(safety_gear))
+
+    for idx, item in enumerate(safety_gear):
+        with columns[idx]:
+            if st.checkbox(item, value=True, key=f"safety_{idx}_detour"):
+                checked_items.append(item)
+    
+    if checked_items:
+        auto_description += "안전장구류 착용 확인: " + ", ".join(checked_items) + "\n설명추가 : "
+    else:
+        auto_description += "안전장구류 착용 확인: 없음 -> ⚠️안전장구류 필수 착용 요망\n"
+
 
 elif selected_option == "주정차가 불가능한 도로 및 터널에 설치된 경우":
     st.write("🛤️ 우회로 확인")
@@ -128,6 +171,32 @@ elif selected_option == "안전난간이 없는 지붕 위 설치된 경우":
         auto_description += "안전장구류 착용 확인: " + ", ".join(checked_items) + "\n설명추가 : "
     else:
         auto_description += "안전장구류 착용 확인: 없음 -> ⚠️안전장구류 필수 착용 요망\n"
+
+elif selected_option == "측정장비가 너무 높은곳에 있는 경우":
+    st.write("사다리 유형 선택")
+    
+    ladder_type = st.radio("사다리 유형을 선택하세요:", ["A자형 사다리", "비 A자형 사다리"])
+    additional_info += f"사다리 유형: {ladder_type}\n"
+
+    if ladder_type == "A자형 사다리":
+        st.write("✔️ 안전장구류 체크리스트")
+        safety_gear = ["안전모", "안전화", "안전대", "안전고리", "보호장갑"]
+        checked_items = []
+        columns = st.columns(len(safety_gear))
+
+        for idx, item in enumerate(safety_gear):
+            with columns[idx]:
+                if st.checkbox(item, value=True, key=f"safety_{idx}"):
+                    checked_items.append(item)
+        
+        if checked_items:
+            auto_description += "A형 사다리를 이용하여 안전에 유의하여 검사 진행\n안전장구류 착용 확인: " + ", ".join(checked_items) + "\n설명추가 : "
+        else:
+            auto_description += "안전장구류 착용 확인: 없음 -> ⚠️안전장구류 필수 착용 요망\n"
+
+    else:  # 비 A자형 사다리일 경우
+        warning_message = "⚠️ 현재 비 A자형 사다리 사용 중 - A자형 사다리로 변경 후 검사 요망!\n"
+        auto_description += warning_message
 
 elif selected_option == "감염병으로 출입이 불가능한 지역":
     auto_description = "⚠️검사 연기 후 감염 위험요소 해소 후 재검사 시행 예정\n"
