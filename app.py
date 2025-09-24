@@ -52,25 +52,6 @@ options = [
 # 선택항목을 선택할 때 사용되는 selectbox 위젯
 selected_option = st.selectbox("✅ 항목 선택", options)
 
-# 공통 체크리스트 함수
-def render_safety_gear_checklist(safety_gear, key_prefix=""):
-    checked_items = []
-    row1 = st.columns(3)
-    for i in range(3):
-        if i < len(safety_gear):
-            with row1[i]:
-                if st.checkbox(safety_gear[i], value=True, key=f"{key_prefix}_gear_{i}"):
-                    checked_items.append(safety_gear[i])
-    row2 = st.columns(3)
-    for i in range(3):
-        gear_idx = i + 3
-        if gear_idx < len(safety_gear):
-            with row2[i]:
-                if st.checkbox(safety_gear[gear_idx], value=True, key=f"{key_prefix}_gear_{gear_idx}"):
-                    checked_items.append(safety_gear[gear_idx])
-    return checked_items
-
-
 # 선택에 따라 추가 정보 표시 및 내용 수집
 additional_info = f"선택항목: {selected_option}\n"  # 선택 항목 추가
 auto_description = ""  # 자동으로 추가되는 설명 초기화
@@ -85,8 +66,13 @@ if selected_option == "이동용 사다리로 추락 위험이 높은 경우":
     if ladder_type == "A자형 사다리":
         st.write("✔️ 안전장구류 체크리스트")
         safety_gear = ["안전모", "안전화", "안전대", "안전고리", "보호장갑"]
-        checked_items = render_safety_gear_checklist(safety_gear, key_prefix="ladder")
-        
+
+        checked_items = [] 
+        columns = st.columns(len(safety_gear)) 
+        for idx, item in enumerate(safety_gear): 
+            with columns[idx]: 
+                if st.checkbox(item, value=True, key=f"safety_{idx}_detour"): checked_items.append(item)
+
         if checked_items:
             auto_description += "전도방지 확인 후 안전에 유의하여 검사 진행\n안전장구류 착용 확인: " + ", ".join(checked_items) + "\n설명추가 : "
         else:
@@ -95,8 +81,13 @@ if selected_option == "이동용 사다리로 추락 위험이 높은 경우":
     else:  # 비 A자형 사다리일 경우
         st.write("✔️ 안전장구류 체크리스트")
         safety_gear = ["안전모", "안전화", "안전대", "안전고리", "보호장갑"]
-        checked_items = render_safety_gear_checklist(safety_gear, key_prefix="ladder")
-        
+
+        checked_items = [] 
+        columns = st.columns(len(safety_gear)) 
+        for idx, item in enumerate(safety_gear): 
+            with columns[idx]: 
+                if st.checkbox(item, value=True, key=f"safety_{idx}_detour"): checked_items.append(item)   
+
         if checked_items:
             auto_description += "이동 통로로만 이용(사다리에서 작업은 금지), 2인 1조 전도방지를 위한 조치와 함께 안전 검사 진행\n안전장구류 착용 확인: " + ", ".join(checked_items) + "\n설명추가 : "
         else:
@@ -117,8 +108,13 @@ elif selected_option == "사다리 시작위치가 너무 높거나 끝 지점�
 
     st.write("✔️ 안전장구류 체크리스트")
     safety_gear = ["안전모", "안전화", "안전대", "안전고리", "보호장갑"]
-    checked_items = render_safety_gear_checklist(safety_gear, key_prefix="ladder")
-    
+
+    checked_items = [] 
+    columns = st.columns(len(safety_gear)) 
+    for idx, item in enumerate(safety_gear): 
+        with columns[idx]: 
+            if st.checkbox(item, value=True, key=f"safety_{idx}_detour"): checked_items.append(item)    
+
     if checked_items:
         auto_description += "안전장구류 착용 확인: " + ", ".join(checked_items) + "\n설명추가 : "
     else:
@@ -138,8 +134,13 @@ elif selected_option == "주정차가 불가능한 도로 및 터널에 설치�
 
     st.write("✔️ 안전장구류 체크리스트")
     safety_gear = ["안전모", "안전화", "안전대", "안전고리", "보호장갑"]
-    checked_items = render_safety_gear_checklist(safety_gear, key_prefix="ladder")
-    
+
+    checked_items = [] 
+    columns = st.columns(len(safety_gear)) 
+    for idx, item in enumerate(safety_gear): 
+        with columns[idx]: 
+            if st.checkbox(item, value=True, key=f"safety_{idx}_detour"): checked_items.append(item)  
+
     if checked_items:
         auto_description += "안전장구류 착용 확인: " + ", ".join(checked_items) + "\n설명추가 : "
     else:
@@ -158,8 +159,13 @@ elif selected_option == "안전난간이 없는 지붕 위 설치된 경우":
 
     st.write("✔️ 안전장구류 체크리스트")
     safety_gear = ["안전모", "안전화", "안전대", "안전고리", "보호장갑"]
-    checked_items = render_safety_gear_checklist(safety_gear, key_prefix="ladder")
-    
+
+    checked_items = [] 
+    columns = st.columns(len(safety_gear)) 
+    for idx, item in enumerate(safety_gear): 
+        with columns[idx]: 
+            if st.checkbox(item, value=True, key=f"safety_{idx}_detour"): checked_items.append(item) 
+
     if checked_items:
         auto_description += "안전장구류 착용 확인: " + ", ".join(checked_items) + "\n설명추가 : "
     else:
@@ -174,8 +180,12 @@ elif selected_option == "측정장비가 너무 높은곳에 있는 경우":
     if ladder_type == "A자형 사다리":
         st.write("✔️ 안전장구류 체크리스트")
         safety_gear = ["안전모", "안전화", "안전대", "안전고리", "보호장갑"]
-        checked_items = render_safety_gear_checklist(safety_gear, key_prefix="ladder")
-
+        
+        checked_items = [] 
+        columns = st.columns(len(safety_gear)) 
+        for idx, item in enumerate(safety_gear): 
+            with columns[idx]: 
+                if st.checkbox(item, value=True, key=f"safety_{idx}_detour"): checked_items.append(item)   
         
         if checked_items:
             auto_description += "A형 사다리를 이용하여 안전에 유의하여 검사 진행\n안전장구류 착용 확인: " + ", ".join(checked_items) + "\n설명추가 : "
