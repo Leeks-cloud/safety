@@ -71,7 +71,7 @@ if selected_option == "이동용 사다리로 추락 위험이 높은 경우":
         columns = st.columns(len(safety_gear)) 
         for idx, item in enumerate(safety_gear): 
             with columns[idx]: 
-                if st.checkbox(item, value=True, key=f"safety_{idx}_detour"): checked_items.append(item)
+                if st.checkbox(item, value=True, key=f"safety_{idx}_roof"): checked_items.append(item)
 
         if checked_items:
             auto_description += "전도방지 확인 후 안전에 유의하여 검사 진행\n안전장구류 착용 확인: " + ", ".join(checked_items) + "\n설명추가 : "
