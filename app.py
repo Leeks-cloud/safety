@@ -10,6 +10,10 @@ from email.header import Header
 from email import encoders
 import os
 
+# 🔐 환경변수 로딩 (Streamlit Secrets)
+EMAIL_ADDRESS = os.environ["EMAIL_ADDRESS"]
+EMAIL_PASSWORD = os.environ["EMAIL_PASSWORD"]
+
 st.set_page_config(page_title="안전위험요소 보고", layout="centered")
 
 st.title("📋 안전위험요소")
@@ -265,8 +269,7 @@ if generate:
                 print("이메일 전송 실패:", e)
                 return False
 
-        sender_email = "qdqd1541@gmail.com"  # 발신자 이메일
-        sender_password = "ewdc mfbc vunf xfnq"   # 앱 비밀번호
+
         subject = f"[자동보고] 안전위험요소 리포트 - {report_date}"
         body = "첨부된 PDF 리포트를 확인해주세요."
 
