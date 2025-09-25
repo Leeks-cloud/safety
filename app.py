@@ -268,8 +268,8 @@ if generate:
         body = "첨부된 PDF 리포트를 확인해주세요."
 
         success = send_email_with_attachment(
-            sender_email,
-            sender_password,
+            EMAIL_ADDRESS,
+            EMAIL_PASSWORD,
             recipient_email,
             subject,
             body,
