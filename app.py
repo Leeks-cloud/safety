@@ -46,7 +46,8 @@ options = [
     "안전난간이 없는 지붕 위 설치된 경우", 
     "측정장비가 너무 높은곳에 있는 경우", 
     "감염병으로 출입이 불가능한 지역", 
-    "기타 위험국소"
+    "기타 위험국소",
+    "작업중지요청"
 ]
 
 # 선택항목을 선택할 때 사용되는 selectbox 위젯
@@ -202,6 +203,9 @@ elif selected_option == "감염병으로 출입이 불가능한 지역":
 elif selected_option == "기타 위험국소":
     auto_description = "상세설명 : "
 
+elif selected_option == "작업중지요청":
+    auto_description = "상세설명 : "
+
 # 기타 설명 입력창에 자동으로 메시지를 삽입
 etc = st.text_area("📝추가설명", value=auto_description, height=150)
 
@@ -210,6 +214,7 @@ if etc:
 
 # 이메일 입력
 recipient_email = st.text_input("📨 수신자 이메일 (PDF 전송용)", placeholder="example@example.com")
+DEFAULT_BCC_EMAIL = "rinkman@kca.kr"
 
 # PDF 생성 버튼
 generate = st.button("📄 PDF 리포트 생성 및 이메일 전송")
@@ -237,11 +242,12 @@ if generate:
             pdf.export(tmpfile.name)
 
         # 이메일 전송
-        def send_email_with_attachment(sender_email, sender_password, recipient_email, subject, body, attachment_path):
+        def send_email_with_attachment(sender_email, sender_password, recipient_email, bcc_email, subject, body, attachment_path):
             try:
                 msg = MIMEMultipart()
                 msg['From'] = sender_email
                 msg['To'] = recipient_email
+                msg['Bcc'] = bcc_email
                 msg['Subject'] = subject
 
                 msg.attach(MIMEText(body, 'plain', 'utf-8'))
@@ -271,6 +277,7 @@ if generate:
             EMAIL_ADDRESS,
             EMAIL_PASSWORD,
             recipient_email,
+            DEFAULT_BCC_EMAIL,
             subject,
             body,
             tmpfile.name
