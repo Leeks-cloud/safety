@@ -19,7 +19,7 @@ class PDF(FPDF):
 
         self.set_font("Nanum", "", 12)
 
-        # 1행: 날짜 / 날짜값 / 심각도 / 값
+        # 1행: 날짜 / 날짜값 / 심각도 / 재발가능성
         self.cell(30, 10, "날짜", border=1, align="C", fill=True)
         self.cell(40, 10, date, border=1, align="C")
         self.cell(30, 10, "심각도", border=1, align="C", fill=True)
@@ -27,18 +27,23 @@ class PDF(FPDF):
         self.cell(30, 10, "재발가능성", border=1, align="C", fill=True)
         self.cell(30, 10, recurrence, border=1, align="C", ln=True)
 
-        # 2행: 장소 / 장소값 / 재발가능성 / 값
+        # 2행: 장소 / 장소값 / 
         self.cell(30, 10, "장소", border=1, align="C", fill=True)
         self.cell(160, 10, location, border=1, align="C", ln=True)
+        
+        # 3행: 허가번호 / 값 / 부서 / 값
+        self.cell(30, 10, "허가번호", border=1, align="C", fill=True)
+        self.cell(80, 10, permit_no, border=1, align="C")
+        self.cell(30, 10, "부서(본부)", border=1, align="C", fill=True)
+        self.cell(50, 10, department, border=1, align="C", ln=True)
 
-
-        # 3행: 전체사진
+        # 4행: 전체사진
         self._add_image_row("전체사진", whole_img)
 
-        # 4행: 상세사진
+        # 5행: 상세사진
         self._add_image_row("상세사진", close_img)
 
-        # 5행: 상세설명
+        # 6행: 상세설명
         self._add_text_row("상세설명", desc_text)
 
     def _add_image_row(self, label, image_file):
