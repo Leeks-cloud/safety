@@ -24,6 +24,16 @@ report_date = st.date_input("📅 날짜", value=date.today())
 # 장소
 location = st.text_input("📍 장소 (설치 장소 주소 기재)")
 
+# ✅ 허가번호
+permit_no = st.text_input(
+    "🔎 허가번호",
+    placeholder="예: 00-0000-00-0000000",
+    help="형식: 2자리-4자리-2자리-7자리 (예: 00-0000-00-0000000)"
+)
+
+# ✅ 부서
+department = st.radio("🏢 부서", ["A부서", "B부서", "C부서"], horizontal=True)
+
 # 위험도 선택
 severity = st.radio("⚠️ 심각도", ["경계", "중간", "심각"], horizontal=True)
 
