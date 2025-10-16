@@ -223,7 +223,7 @@ if etc:
 
 # 이메일 입력
 recipient_email = st.text_input("📨 수신자 이메일 (PDF 전송용)", placeholder="example@example.com")
-DEFAULT_BCC_EMAIL = "rinkman@kca.kr"
+DEFAULT_BCC_EMAIL = "safety@kca.kr"
 
 # PDF 생성 버튼
 generate = st.button("📄 PDF 리포트 생성 및 이메일 전송")
@@ -242,6 +242,8 @@ if generate:
             pdf.header_table(
                 str(report_date),
                 location,
+                permitno,
+                department,
                 severity,
                 recurrence,
                 whole_photo,
