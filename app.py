@@ -25,7 +25,7 @@ report_date = st.date_input("📅 날짜", value=date.today())
 location = st.text_input("📍 장소 (설치 장소 주소 기재)")
 
 # ✅ 허가번호
-permit_no = st.text_input(
+permitno = st.text_input(
     "🔎 허가번호",
     placeholder="예: 00-0000-00-0000000"
 )
