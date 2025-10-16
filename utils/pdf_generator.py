@@ -33,7 +33,7 @@ class PDF(FPDF):
         
         # 3행: 허가번호 / 값 / 부서 / 값
         self.cell(30, 10, "허가번호", border=1, align="C", fill=True)
-        self.cell(80, 10, permit_no, border=1, align="C")
+        self.cell(80, 10, permitno, border=1, align="C")
         self.cell(30, 10, "부서(본부)", border=1, align="C", fill=True)
         self.cell(50, 10, department, border=1, align="C", ln=True)
 
