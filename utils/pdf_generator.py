@@ -10,7 +10,7 @@ class PDF(FPDF):
         self.set_font("Nanum", "", 12)  # 기본 폰트 설정
         self.add_page()  # PDF 첫 페이지 생성
 
-    def header_table(self, date, location, severity, recurrence, whole_img, close_img, desc_text):
+    def header_table(self, date, location, permitno, department, severity, recurrence, whole_img, close_img, desc_text):
         self.set_fill_color(255, 230, 230)
         self.set_font("Nanum", "", 16)
 
